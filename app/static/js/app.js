@@ -249,6 +249,11 @@ document.addEventListener("DOMContentLoaded", function () {
           marksCourseSelect.innerHTML = '<option value="">Error loading courses</option>';
         }
       });
+
+      // If a student is already preselected (e.g. browser cache), trigger course load
+      if (marksStudentSelect.value) {
+        marksStudentSelect.dispatchEvent(new Event("change"));
+      }
     }
 
     marksForm.addEventListener("submit", async function (e) {

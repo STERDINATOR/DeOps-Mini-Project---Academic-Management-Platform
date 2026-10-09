@@ -38,7 +38,7 @@ This project solves this by delivering an understandable, production-grade appli
 
 - **Intuitive Web Portal**: Responsive, uncluttered interface designed like a real college portal with simple tables and cards.
 - **Thread-Safe In-Memory Database**: Singleton in-memory database using Python dictionaries and `threading.Lock()` for concurrency protection without external database overhead.
-- **Automatic Demo Seeding**: Pre-loaded with realistic demo data (3 students, 2 faculty, 4 courses, enrollments, and marks).
+- **Clean Initial State**: Starts with an empty database ready for student, faculty, course, and enrollment creation.
 - **RESTful API**: Standardized JSON endpoints with appropriate HTTP status codes (`200`, `201`, `400`, `404`, `409`).
 - **Health Check Endpoint**: `/api/health` providing readiness and liveness signals for container platforms.
 - **DevOps Artifacts**: Docker container image, Kubernetes Deployment and Service definitions, and automated Jenkins CI pipeline.
