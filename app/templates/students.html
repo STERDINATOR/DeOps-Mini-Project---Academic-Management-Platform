@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Students - Academic Management Platform{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h2>Student Management</h2>
+  <p>Register new students and manage student records.</p>
+</div>
+
+<div id="studentAlerts" class="alert-container"></div>
+
+<!-- Add Student Form Card -->
+<div class="panel">
+  <div class="panel-header">
+    <h3>Register New Student</h3>
+  </div>
+  <div class="panel-body">
+    <form id="addStudentForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="student_id">Student ID *</label>
+          <input type="text" id="student_id" class="form-control" placeholder="e.g. STU004" required>
+        </div>
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input type="text" id="name" class="form-control" placeholder="e.g. Neha Gupta" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Institutional Email *</label>
+          <input type="email" id="email" class="form-control" placeholder="e.g. neha@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="department">Department *</label>
+          <input type="text" id="department" class="form-control" placeholder="e.g. Computer Science" required>
+        </div>
+        <div class="form-group">
+          <label for="semester">Current Semester *</label>
+          <input type="number" id="semester" class="form-control" min="1" max="8" placeholder="e.g. 1" required>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save Student</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Student Directory Table Card -->
+<div class="panel">
+  <div class="panel-header">
+    <h3>Registered Students</h3>
+  </div>
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Semester</th>
+            <th style="width: 170px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if students %}
+            {% for s in students %}
+            <tr>
+              <td><strong>{{ s.student_id }}</strong></td>
+              <td>{{ s.name }}</td>
+              <td>{{ s.email }}</td>
+              <td>{{ s.department }}</td>
+              <td>Semester {{ s.semester }}</td>
+              <td>
+                <a href="{{ url_for('web.student_details', student_id=s.student_id) }}" class="btn btn-sm btn-secondary">View</a>
+                <button type="button" class="btn btn-sm btn-danger btn-delete-student" data-student-id="{{ s.student_id }}" data-student-name="{{ s.name }}">Delete</button>
+              </td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="6" class="empty-state">No students found. Register one using the form above.</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Student Details: {{ student.name }} - Academic Management Platform{% endblock %}
+
+{% block content %}
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+  <div>
+    <h2>Student Academic Profile</h2>
+    <p>Comprehensive academic record and GPA transcript for {{ student.name }}.</p>
+  </div>
+  <div>
+    <a href="{{ url_for('web.students') }}" class="btn btn-secondary">← Back to Students</a>
+    <a href="{{ url_for('web.enrollments') }}" class="btn btn-secondary">Enroll in Course</a>
+    <a href="{{ url_for('web.marks') }}" class="btn btn-primary">Enter Marks</a>
+  </div>
+</div>
+
+<div class="card-grid">
+  <!-- Profile Summary -->
+  <div class="stat-card">
+    <div class="stat-label">Student ID</div>
+    <div style="font-size: 1.25rem; font-weight: 700; color: var(--primary-color);">{{ student.student_id }}</div>
+    <div style="margin-top: 6px; font-weight: 600;">{{ student.name }}</div>
+    <div style="font-size: 0.85rem; color: var(--text-muted);">{{ student.email }}</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-label">Department & Semester</div>
+    <div style="font-size: 1.25rem; font-weight: 700;">{{ student.department }}</div>
+    <div style="margin-top: 6px; color: var(--text-muted);">Semester {{ student.semester }}</div>
+  </div>
+
+  <!-- Cumulative GPA -->
+  <div class="stat-card">
+    <div class="stat-label">Calculated GPA</div>
+    <div class="stat-value">{{ gpa_info.gpa }}</div>
+    <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Out of 10.0 scale</div>
+  </div>
+
+  <!-- Total Evaluated Credits -->
+  <div class="stat-card">
+    <div class="stat-label">Evaluated Credits</div>
+    <div class="stat-value" style="color: var(--text-main);">{{ gpa_info.total_credits }}</div>
+    <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Credits with recorded marks</div>
+  </div>
+</div>
+
+<!-- Enrolled Courses & Academic Marks Table -->
+<div class="panel">
+  <div class="panel-header">
+    <h3>Course Enrollments & Academic Performance</h3>
+  </div>
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Course ID</th>
+            <th>Course Name</th>
+            <th>Credits</th>
+            <th>Faculty Instructor</th>
+            <th>Marks (0-100)</th>
+            <th>Grade Point (0-10)</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if courses_summary %}
+            {% for item in courses_summary %}
+            <tr>
+              <td><strong>{{ item.course_id }}</strong></td>
+              <td>{{ item.course_name }}</td>
+              <td>{{ item.credits }} cr</td>
+              <td>{{ item.faculty_name }}</td>
+              <td>
+                {% if item.marks is not none %}
+                  <strong>{{ item.marks }}</strong>
+                {% else %}
+                  <span style="color: var(--text-light); font-style: italic;">Pending</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if item.grade_point is not none %}
+                  <span class="badge badge-blue">{{ item.grade_point }} / 10</span>
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>
+                {% if item.marks is not none %}
+                  <span class="badge badge-green">Evaluated</span>
+                {% else %}
+                  <span class="badge badge-gray">Enrolled</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="7" class="empty-state">No courses enrolled yet. Use the Enrollments tab to register courses.</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

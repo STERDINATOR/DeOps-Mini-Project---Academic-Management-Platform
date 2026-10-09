@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Enterprise Student Record & Academic Management Platform{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-top">
+      <div class="portal-title">
+        <div>
+          <h1>Enterprise Student Record & Academic Management Platform</h1>
+          <div class="portal-subtitle">College Administration & Academic Records Portal</div>
+        </div>
+      </div>
+      <div class="system-badge">DevOps Release v1.0.0</div>
+    </div>
+    <nav class="main-nav">
+      <div class="nav-container">
+        <a href="{{ url_for('web.dashboard') }}" class="nav-link {% if active_page == 'dashboard' %}active{% endif %}">Dashboard</a>
+        <a href="{{ url_for('web.students') }}" class="nav-link {% if active_page == 'students' %}active{% endif %}">Students</a>
+        <a href="{{ url_for('web.faculty') }}" class="nav-link {% if active_page == 'faculty' %}active{% endif %}">Faculty</a>
+        <a href="{{ url_for('web.courses') }}" class="nav-link {% if active_page == 'courses' %}active{% endif %}">Courses</a>
+        <a href="{{ url_for('web.enrollments') }}" class="nav-link {% if active_page == 'enrollments' %}active{% endif %}">Enrollments</a>
+        <a href="{{ url_for('web.marks') }}" class="nav-link {% if active_page == 'marks' %}active{% endif %}">Marks</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div>Enterprise Student Record & Academic Management Platform</div>
+      <div>University DevOps Assignment Project • Python 3.11 • Flask 3.0.3</div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

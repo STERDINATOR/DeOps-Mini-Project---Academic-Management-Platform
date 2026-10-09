@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Enrollments - Academic Management Platform{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h2>Course Enrollments</h2>
+  <p>Enroll students into curriculum courses in accordance with institutional semester credit limits.</p>
+</div>
+
+<div id="enrollAlerts" class="alert-container"></div>
+
+<!-- Policy Notice Card -->
+<div class="alert alert-info">
+  <div>
+    <strong>Academic Enrollment Rules:</strong>
+    <ul style="margin: 4px 0 0 20px; font-size: 0.85rem;">
+      <li>A student's enrolled semester must exactly match the course's designated semester.</li>
+      <li>Strict Credit Cap: A student cannot exceed <strong>18 total credits</strong> in any single semester.</li>
+      <li>Duplicate enrollments in the same course are rejected.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Enroll Student Form Card -->
+<div class="panel">
+  <div class="panel-header">
+    <h3>Enroll Student in Course</h3>
+  </div>
+  <div class="panel-body">
+    <form id="enrollForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="enroll_student_id">Select Student *</label>
+          <select id="enroll_student_id" class="form-control" required>
+            <option value="">-- Choose Student --</option>
+            {% for s in students %}
+            <option value="{{ s.student_id }}">
+              {{ s.name }} ({{ s.student_id }}) - Semester {{ s.semester }} [{{ s.department }}]
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="enroll_course_id">Select Course *</label>
+          <select id="enroll_course_id" class="form-control" required>
+            <option value="">-- Choose Course --</option>
+            {% for c in courses %}
+            <option value="{{ c.course_id }}">
+              {{ c.course_id }} - {{ c.name }} ({{ c.credits }} Credits, Sem {{ c.semester }})
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Submit Enrollment</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Current Enrollments Table Card -->
+<div class="panel">
+  <div class="panel-header">
+    <h3>Current Enrollments Registry</h3>
+  </div>
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Student Name & ID</th>
+            <th>Course ID</th>
+            <th>Course Name</th>
+            <th>Credits</th>
+            <th>Semester</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if enrollments %}
+            {% for enr in enrollments %}
+            <tr>
+              <td>
+                <a href="{{ url_for('web.student_details', student_id=enr.student_id) }}" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">
+                  {{ enr.student_name }}
+                </a>
+                <span style="color: var(--text-muted); font-size: 0.8rem;">({{ enr.student_id }})</span>
+              </td>
+              <td><strong>{{ enr.course_id }}</strong></td>
+              <td>{{ enr.course_name }}</td>
+              <td><span class="badge badge-blue">{{ enr.credits }} cr</span></td>
+              <td>Semester {{ enr.semester }}</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="5" class="empty-state">No student enrollments found.</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

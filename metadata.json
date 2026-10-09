@@ -1,0 +1,8 @@
+{
+  "name": "Enterprise Student Record & Academic Management Platform",
+  "description": "A clean, simple academic management system for college student records, faculty, courses, enrollments, marks, and GPA calculation with complete DevOps automation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

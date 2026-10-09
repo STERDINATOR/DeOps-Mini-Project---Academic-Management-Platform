@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Academic Management Platform{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h2>Administration Dashboard</h2>
+  <p>Overview of institutional academic records, faculty allocations, and course registrations.</p>
+</div>
+
+<!-- 4 Statistic Cards -->
+<div class="card-grid">
+  <div class="stat-card">
+    <div class="stat-label">Total Students</div>
+    <div class="stat-value">{{ stats.total_students }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Total Faculty</div>
+    <div class="stat-value">{{ stats.total_faculty }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Total Courses</div>
+    <div class="stat-value">{{ stats.total_courses }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Total Enrollments</div>
+    <div class="stat-value">{{ stats.total_enrollments }}</div>
+  </div>
+</div>
+
+<!-- System Overview Section -->
+<div class="panel">
+  <div class="panel-header">
+    <h3>System Overview</h3>
+    <a href="{{ url_for('web.students') }}" class="btn btn-sm btn-secondary">View All Students</a>
+  </div>
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Student ID</th>
+            <th>Full Name</th>
+            <th>Department</th>
+            <th>Semester</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if students %}
+            {% for s in students %}
+            <tr>
+              <td><strong>{{ s.student_id }}</strong></td>
+              <td>{{ s.name }}</td>
+              <td>{{ s.department }}</td>
+              <td>Semester {{ s.semester }}</td>
+              <td>
+                <a href="{{ url_for('web.student_details', student_id=s.student_id) }}" class="btn btn-sm btn-secondary">View Profile</a>
+              </td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="5" class="empty-state">No student records registered yet.</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Course Enrollments -->
+<div class="panel">
+  <div class="panel-header">
+    <h3>Recent Course Enrollments</h3>
+    <a href="{{ url_for('web.enrollments') }}" class="btn btn-sm btn-secondary">Manage Enrollments</a>
+  </div>
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Course ID</th>
+            <th>Course Name</th>
+            <th>Credits</th>
+            <th>Semester</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if enrollments %}
+            {% for enr in enrollments %}
+            <tr>
+              <td><strong>{{ enr.student_name }}</strong> ({{ enr.student_id }})</td>
+              <td>{{ enr.course_id }}</td>
+              <td>{{ enr.course_name }}</td>
+              <td>{{ enr.credits }} cr</td>
+              <td>Semester {{ enr.semester }}</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="5" class="empty-state">No enrollments recorded yet.</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

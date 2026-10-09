@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Faculty - Academic Management Platform{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h2>Faculty Management</h2>
+  <p>Register and manage college teaching faculty members.</p>
+</div>
+
+<div id="facultyAlerts" class="alert-container"></div>
+
+<!-- Add Faculty Form Card -->
+<div class="panel">
+  <div class="panel-header">
+    <h3>Register New Faculty Member</h3>
+  </div>
+  <div class="panel-body">
+    <form id="addFacultyForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="faculty_id">Faculty ID *</label>
+          <input type="text" id="faculty_id" class="form-control" placeholder="e.g. FAC003" required>
+        </div>
+        <div class="form-group">
+          <label for="faculty_name">Full Name *</label>
+          <input type="text" id="faculty_name" class="form-control" placeholder="e.g. Dr. Suresh Mehta" required>
+        </div>
+        <div class="form-group">
+          <label for="faculty_email">Email Address *</label>
+          <input type="email" id="faculty_email" class="form-control" placeholder="e.g. suresh.mehta@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="faculty_department">Department *</label>
+          <input type="text" id="faculty_department" class="form-control" placeholder="e.g. Computer Science" required>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save Faculty</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Faculty Table Card -->
+<div class="panel">
+  <div class="panel-header">
+    <h3>Faculty Directory</h3>
+  </div>
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Faculty ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if faculty %}
+            {% for f in faculty %}
+            <tr>
+              <td><strong>{{ f.faculty_id }}</strong></td>
+              <td>{{ f.name }}</td>
+              <td>{{ f.email }}</td>
+              <td>{{ f.department }}</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="4" class="empty-state">No faculty members found. Register one using the form above.</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
